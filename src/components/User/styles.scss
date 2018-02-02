@@ -20,7 +20,7 @@
 }
 
 .homeButton:hover {
-  color: #fff
+  color: #fff;
 }
 
 .flexContainer {
@@ -63,4 +63,29 @@
 
 .forkSourceText {
   font-size: 12px;
+}
+
+.tab {
+  align-items: center;
+  border-bottom-color: #dbdbdb;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  color: #4a4a4a;
+  display: flex;
+  justify-content: center;
+  margin-bottom: -1px;
+  padding: 0.5em 1em;
+  vertical-align: top;
+  cursor: pointer;
+  outline: none;
+}
+
+.tab:hover {
+  border-bottom-color: #363636;
+  color: #363636;
+}
+
+.tab.isActive {
+  border-bottom-color: #1e87f0;
+  color: #1e87f0;
 }

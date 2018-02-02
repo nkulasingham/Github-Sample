@@ -1,9 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Repository from 'src/components/Repository';
+import Profile from 'src/components/Profile';
 import styles from './styles.scss';
 
-const User = ({ user }) => {
-  const { login, avatarUrl, name, bio, followers, following, repositories } = user;
+const User = ({ user, repositories, changeRepositoryView, active }) => {
+  const { login } = user;
+  const tabs = ['All', 'Sources', 'Forks'];
   return (
     <div className={styles.container}>
       <h1 className={styles.title}> Gitgazers </h1>
@@ -15,99 +18,37 @@ const User = ({ user }) => {
           Search Again
         </Link>
       </div>
+      <hr />
       <div className="columns is-multiline">
         <div className="column is-4">
-          <div className={`box ${styles.profileLink}`}>
-            <div className="media">
-              <div className="media-left">
-                <figure className="image is-64x64">
-                  <img src={avatarUrl} alt="User's Avatar" />
-                </figure>
-              </div>
-              <div className="media-content">
-                <div className="content">
-                  <p>
-                    <strong>{login}</strong>
-                    <br />
-                    <span> {name} </span>
-                    <br />
-                    {/* <span> {val. repositories && val.repositories.totalCount} total repos </span> */}
-                  </p>
-                </div>
-              </div>
-            </div>
-            <hr />
-            <div>
-              <strong> Bio: </strong> {bio}
-              <hr />
-              <strong> {following.totalCount} Following </strong>
-              <br />
-              <strong> {followers.totalCount} Followers </strong>
-              <br />
-              <strong> {repositories.totalCount} Repositories </strong>
-            </div>
-          </div>
+          <Profile {...user} styles={styles} />
         </div>
 
         <div className="column is-8">
           <div className="tabs">
             <ul>
-              <li className="is-active">
-                <a>
-                  <span className="icon is-small">
-                    <i className="fa fa-github" />
+              {tabs.map(tab => (
+                <li>
+                  <span
+                    className={`${active === tab.toLowerCase() && styles.isActive} ${styles.tab}`}
+                    role="button"
+                    tabIndex={0}
+                    onKeyPress={() => changeRepositoryView(tab.toLowerCase())}
+                    onClick={() => changeRepositoryView(tab.toLowerCase())}>
+                    <span className="icon is-small">
+                      <i className="fa fa-github" />
+                    </span>
+                    <span>{tab}</span>
                   </span>
-                  <span>All</span>
-                </a>
-              </li>
-              <li>
-                <a>
-                  <span className="icon is-small">
-                    <i className="fa fa-code" />
-                  </span>
-                  <span>Sources</span>
-                </a>
-              </li>
-              <li>
-                <a>
-                  <span className="icon is-small">
-                    <i className="fa fa-code-fork" />
-                  </span>
-                  <span>Forks</span>
-                </a>
-              </li>
+                </li>
+              ))}
             </ul>
           </div>
-          {repositories.nodes.map(val => (
-            <a href={`https://github.com/${login}/${val.name}`}>
-              <div className={`box ${styles.githubLink}`}>
-                <div className="columns">
-                  <div className="column is-9">
-                    <strong>{val.name}</strong>
-                    <br />
-                    <span> {val.description} </span>
-                    <br />
-                    {val.isFork && (
-                      <span className={styles.forkSourceText}>
-                        Forked from &nbsp;
-                        <a href={val.parent.url}>{val.parent.url}</a>
-                      </span>
-                    )}
-                  </div>
-                  <div className={`column is-3 ${styles.iconContainer}`}>
-                    <span className={styles.icon}>
-                      {val.forkCount}
-                      <i className="fa fa-code-fork" />
-                    </span>
-                    <span className={styles.icon}>
-                      {val.stargazers.totalCount}
-                      <i className="fa fa-star" />
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </a>
-          ))}
+          {(Array.isArray(repositories) &&
+            repositories.length > 0 &&
+            repositories.map(repository => (
+              <Repository login={login} {...repository} styles={styles} />
+            ))) || <p> No repositories found for this user </p>}
         </div>
       </div>
     </div>
