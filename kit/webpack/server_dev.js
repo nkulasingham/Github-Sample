@@ -31,6 +31,7 @@ import { css } from './common';
 import PATHS from '../../config/paths';
 
 // ----------------------
+require('dotenv').config();
 
 // Simple Webpack plugin for (re)spawning the development server after
 // every build
@@ -60,9 +61,7 @@ export default [
 
     // Production server entry point
     entry: {
-      javascript: [
-        path.resolve(PATHS.entry, 'server_dev.js'),
-      ],
+      javascript: [path.resolve(PATHS.entry, 'server_dev.js')],
     },
 
     // Output to the `dist` folder
@@ -80,6 +79,7 @@ export default [
           HOST: JSON.stringify(process.env.HOST || 'localhost'),
           PORT: JSON.stringify(process.env.PORT || '8081'),
           SSL_PORT: process.env.SSL_PORT ? JSON.stringify(process.env.SSL_PORT) : null,
+          ACCESS_TOKEN: JSON.stringify(process.env.ACCESS_TOKEN),
 
           // Debug development
           NODE_ENV: JSON.stringify('development'),

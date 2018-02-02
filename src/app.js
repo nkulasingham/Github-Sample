@@ -14,7 +14,7 @@ import routes from 'src/routes';
 import './styles.global.css';
 
 config.setGraphQLEndpoint('https://api.github.com/graphql');
-
+const accessToken = process.env.ACCESS_TOKEN;
 /* SERVER */
 
 // Set our server config, by checking `SERVER` -- this code path will be
@@ -38,7 +38,6 @@ if (SERVER) {
   });
 
   config.addBeforeMiddleware((ctx, next) => {
-    const accessToken = '5c54be6b7928c3903eb6260265e75101d2d55f01';
     ctx.apollo.networkOptions = {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -48,18 +47,18 @@ if (SERVER) {
   });
 } else {
   config.setApolloNetworkOptions({
-    authorization: 'Bearer 5c54be6b7928c3903eb6260265e75101d2d55f01',
+    authorization: `Bearer ${accessToken}`,
   });
 
   config.addApolloMiddleware((ctx, next) => {
     if (ctx.options.headers) {
       ctx.options.headers = {
         ...ctx.options.headers,
-        authorization: 'Bearer 5c54be6b7928c3903eb6260265e75101d2d55f01',
+        authorization: `Bearer ${accessToken}`,
       };
     } else {
       ctx.options = { headers: {} };
-      ctx.options.headers.authorization = 'Bearer 5c54be6b7928c3903eb6260265e75101d2d55f01';
+      ctx.options.headers.authorization = `Bearer ${accessToken}`;
     }
     return next();
   });
@@ -68,11 +67,11 @@ if (SERVER) {
 const App = () => (
   <div>
     <Helmet
-      title="ReactQL application"
+      title="Gitgazers"
       meta={[
         {
           name: 'description',
-          content: 'ReactQL starter kit app',
+          content: 'Explore Github Profiles Here',
         },
       ]} />
     <Switch>
