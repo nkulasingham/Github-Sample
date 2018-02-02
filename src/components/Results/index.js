@@ -1,34 +1,10 @@
 import React from 'react';
+import Tile from 'src/components/Tile';
 import { Link } from 'react-router-dom';
 import styles from './styles.scss';
 
 const Results = ({ users, total, query }) => {
-  const tiles =
-    Array.isArray(users) &&
-    users.map(val => (
-      <div key={val.login} className="column is-4">
-        <Link to={`/users/${val.login}`}>
-          <div className={`box ${styles.profileLink}`}>
-            <div className="media">
-              <div className="media-left">
-                <figure className="image is-64x64">
-                  <img src={val.avatarUrl} alt="User's Avatar" />
-                </figure>
-              </div>
-              <div className="media-content">
-                <div className="content">
-                  <p>
-                    <strong>{val.login}</strong>
-                    <br />
-                    <span> {val.repositories && val.repositories.totalCount} total repos </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Link>
-      </div>
-    ));
+  const tiles = Array.isArray(users) && users.map(user => <Tile {...user} styles={styles} />);
   return (
     <div className={styles.container}>
       <h1 className={styles.title}> Gitgazers </h1>
@@ -40,6 +16,7 @@ const Results = ({ users, total, query }) => {
           Search Again
         </Link>
       </div>
+      <hr />
       <div className="columns is-multiline">{tiles} </div>
     </div>
   );

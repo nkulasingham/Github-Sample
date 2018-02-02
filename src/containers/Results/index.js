@@ -3,8 +3,9 @@ import Results from 'src/components/Results';
 import { graphql } from 'react-apollo';
 import qs from 'qs';
 import idx from 'idx';
+import Loader from 'src/components/Loader';
 
-import search from './query.gql';
+import search from './search.gql';
 
 @graphql(search, {
   options: props => {
@@ -17,14 +18,15 @@ import search from './query.gql';
     };
   },
 })
-class HomeContainer extends Component {
+class ResultsContainer extends Component {
   render() {
     const users = idx(this.props.data, _ => _.search.nodes);
     const userCount = idx(this.props.data, _ => _.search.userCount);
     const query = qs.parse(this.props.location.search)['?q'];
+    const { loading } = this.props.data;
 
-    return <Results query={query} total={userCount} users={users} />;
+    return loading ? <Loader /> : <Results query={query} total={userCount} users={users} />;
   }
 }
 
-export default HomeContainer;
+export default ResultsContainer;
