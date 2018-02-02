@@ -35,9 +35,6 @@ const User = ({ user, repositories, changeRepositoryView, active }) => {
                     tabIndex={0}
                     onKeyPress={() => changeRepositoryView(tab.toLowerCase())}
                     onClick={() => changeRepositoryView(tab.toLowerCase())}>
-                    <span className="icon is-small">
-                      <i className="fa fa-github" />
-                    </span>
                     <span>{tab}</span>
                   </span>
                 </li>
