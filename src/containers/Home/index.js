@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Home from 'src/components/Home';
+import Helmet from 'react-helmet';
 
 class HomeContainer extends Component {
   state = {
@@ -18,10 +19,14 @@ class HomeContainer extends Component {
   render() {
     const { username } = this.state;
     return (
-      <Home
-        submitForm={this.handleSubmit}
-        updateUsername={this.updateUsername}
-        username={username} />
+      <Fragment>
+        <Helmet
+          title="Home | Gitgazers" />
+        <Home
+          submitForm={this.handleSubmit}
+          updateUsername={this.updateUsername}
+          username={username} />
+      </Fragment>
     );
   }
 }

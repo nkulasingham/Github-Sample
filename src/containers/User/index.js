@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import Helmet from 'react-helmet';
+
 import User from 'src/components/User';
 import Loader from 'src/components/Loader';
 
@@ -52,15 +54,20 @@ class UserContainer extends Component {
       repositories = idx(this.props.data, _ => _.user.repositories.nodes);
     }
     const { loading } = this.props.data;
-
-    return loading ? (
-      <Loader />
-    ) : (
-      <User
-        user={user}
-        active={this.state.active}
-        changeRepositoryView={this.changeRepositoryView}
-        repositories={repositories} />
+    const { params } = this.props.match;
+    return (
+      <Fragment>
+        <Helmet title={`${params.user}'s Github profile | Gitgazers`} />
+        {loading ? (
+          <Loader />
+        ) : (
+          <User
+            user={user}
+            active={this.state.active}
+            changeRepositoryView={this.changeRepositoryView}
+            repositories={repositories} />
+        )}
+      </Fragment>
     );
   }
 }

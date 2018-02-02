@@ -18,7 +18,7 @@ const Repository = ({
           <br />
           <span> {description} </span>
           <br />
-          {isFork && (
+          {isFork && parent && (
             <span className={styles.forkSourceText}>
               Forked from &nbsp;
               <a href={parent.url}>{parent.url}</a>

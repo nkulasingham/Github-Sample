@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Results from 'src/components/Results';
 import { graphql } from 'react-apollo';
 import qs from 'qs';
 import idx from 'idx';
 import Loader from 'src/components/Loader';
+import Helmet from 'react-helmet';
 
 import search from './search.gql';
 
@@ -25,7 +26,12 @@ class ResultsContainer extends Component {
     const query = qs.parse(this.props.location.search)['?q'];
     const { loading } = this.props.data;
 
-    return loading ? <Loader /> : <Results query={query} total={userCount} users={users} />;
+    return (
+      <Fragment>
+        <Helmet title={`Search Results for ${query} | Gitgazers`} />
+        {loading ? <Loader /> : <Results query={query} total={userCount} users={users} />}
+      </Fragment>
+    );
   }
 }
 
