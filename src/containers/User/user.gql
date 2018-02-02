@@ -1,4 +1,4 @@
-query search($login: String!) {
+query user($login: String!) {
   user(login: $login) {
     login
     avatarUrl
@@ -11,7 +11,6 @@ query search($login: String!) {
       totalCount
     }
     repositories(first: 100) {
-      totalCount
       nodes {
         name
         description
