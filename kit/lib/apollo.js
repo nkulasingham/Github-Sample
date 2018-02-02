@@ -19,16 +19,22 @@ import { getServerURL } from 'kit/lib/env';
 // Helper function to create a new Apollo client, by merging in
 // passed options alongside any set by `config.setApolloClientOptions` and defaults
 export function createClient(opt = {}) {
-  return new ApolloClient(Object.assign({
-    reduxRootSelector: state => state.apollo,
-  }, config.apolloClientOptions, opt));
+  return new ApolloClient(
+    Object.assign(
+      {
+        reduxRootSelector: state => state.apollo,
+      },
+      config.apolloClientOptions,
+      opt,
+    ),
+  );
 }
 
 // Wrap `createNetworkInterface` to attach middleware
 export function getNetworkInterface(uri, opt) {
   const networkInterface = createNetworkInterface({
     uri,
-    opts: Object.assign({}, config.apolloNetworkOptions, opt),
+    opts: Object.assign({ headers: {} }, config.apolloNetworkOptions, opt),
   });
 
   // Attach middleware
@@ -43,7 +49,8 @@ export function browserClient() {
   // If we have an internal GraphQL server, we need to append it with a
   // call to `getServerURL()` to add the correct host (in dev + production)
   const uri = config.graphQLServer
-    ? `${getServerURL()}${config.graphQLEndpoint}` : config.graphQLEndpoint;
+    ? `${getServerURL()}${config.graphQLEndpoint}`
+    : config.graphQLEndpoint;
 
   return createClient({
     networkInterface: getNetworkInterface(uri),

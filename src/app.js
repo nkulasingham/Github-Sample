@@ -24,7 +24,23 @@ import config from 'kit/config';
 import counterReducer from 'reducers/counter';
 
 // Main component -- i.e. the 'root' React component in our app
-import Main from 'components/main';
+
+import { Link, Route, Switch, Redirect } from 'react-router';
+
+import Helmet from 'react-helmet';
+import React from 'react';
+// import ScrollToTop from 'src/ScrollToTop';
+// import Home from 'src/containers/Home';
+
+// import { connect } from 'react-redux';
+// import { reducer as formReducer } from 'redux-form';
+// import { graphql } from 'react-apollo';
+// import idx from 'idx';
+import routes from 'src/routes';
+// import session from 'src/gql/queries/session.gql';
+
+// import { updateUser } from 'redux';
+// import userReducer from 'src/reducers/user';
 
 // Init global styles.  These will be added to the resulting CSS automatically
 // without any class hashing.  Use this to include default or framework CSS.
@@ -50,7 +66,7 @@ config.addReducer('counter', counterReducer, { count: 0 });
 //
 // 2.  On the client, it will append the correct server URL so that we can
 // call the ReactQL host properly, and let the server handle our requests
-config.enableGraphQLServer();
+config.setGraphQLEndpoint('https://api.github.com/graphql');
 
 /* SERVER */
 
@@ -92,7 +108,6 @@ if (SERVER) {
   // Pass in the schema to use for our internal GraphQL server.  Note we're
   // doing this inside a `SERVER` block to avoid importing a potentially large
   // file, which would then inflate our client bundle unnecessarily
-  config.setGraphQLSchema(require('src/graphql/schema').default);
 
   /* CUSTOM ROUTES */
 
@@ -189,6 +204,19 @@ if (SERVER) {
 
   // ... and 'after' middleware, which runs after per-request instantiation.
   // Let's use the latter to add a custom header so we can see middleware in action
+
+  config.addBeforeMiddleware((ctx, next) => {
+    const accessToken = '5c54be6b7928c3903eb6260265e75101d2d55f01';
+    ctx.apollo.networkOptions = {
+      // some logic to set the per-request options
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      // credentials: 'include',
+    };
+    return next();
+  });
+
   config.addMiddleware(async (ctx, next) => {
     ctx.set('Powered-By', ctx.engine); // <-- `ctx.engine` from `config.getKoaApp()` above!
 
@@ -201,8 +229,45 @@ if (SERVER) {
     // middleware in the stack (likely, the React handler)
     return next();
   });
+} else {
+  config.setApolloNetworkOptions({
+    authorization: 'Bearer 5c54be6b7928c3903eb6260265e75101d2d55f01',
+  });
+
+  config.addApolloMiddleware((ctx, next) => {
+    // const jwt = localStorage.getItem('reactQLJWT');
+    if (ctx.options.headers) {
+      ctx.options.headers = {
+        ...ctx.options.headers,
+        authorization: 'Bearer 5c54be6b7928c3903eb6260265e75101d2d55f01',
+      };
+    } else {
+      ctx.options = { headers: {} };
+      ctx.options.headers.authorization = 'Bearer 5c54be6b7928c3903eb6260265e75101d2d55f01';
+    }
+    return next();
+  });
 }
 
 // In app.js, we need to export the root component we want to mount as the
 // starting point to our app.  We'll just export the `<Main>` component.
-export default Main;
+
+const App = () => (
+  <div>
+    <Helmet
+      title="ReactQL application"
+      meta={[
+        {
+          name: 'description',
+          content: 'ReactQL starter kit app',
+        },
+      ]} />
+    <Switch>
+      {routes.map(({ path, container, exact }) => (
+        <Route path={path} exact={exact} component={container} />
+      ))}
+    </Switch>
+  </div>
+);
+
+export default App;
