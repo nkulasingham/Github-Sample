@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import Results from 'src/components/Results';
 import { graphql } from 'react-apollo';
 import qs from 'qs';
@@ -27,10 +27,10 @@ class ResultsContainer extends Component {
     const { loading } = this.props.data;
 
     return (
-      <Fragment>
+      <div>
         <Helmet title={`Search Results for ${query} | Gitgazers`} />
         {loading ? <Loader /> : <Results query={query} total={userCount} users={users} />}
-      </Fragment>
+      </div>
     );
   }
 }

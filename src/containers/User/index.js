@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import Helmet from 'react-helmet';
 
 import User from 'src/components/User';
@@ -56,7 +56,7 @@ class UserContainer extends Component {
     const { loading } = this.props.data;
     const { params } = this.props.match;
     return (
-      <Fragment>
+      <div>
         <Helmet title={`${params.user}'s Github profile | Gitgazers`} />
         {loading ? (
           <Loader />
@@ -67,7 +67,7 @@ class UserContainer extends Component {
             changeRepositoryView={this.changeRepositoryView}
             repositories={repositories} />
         )}
-      </Fragment>
+      </div>
     );
   }
 }
