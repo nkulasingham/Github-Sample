@@ -76,7 +76,7 @@ const App = () => (
       ]} />
     <Switch>
       {routes.map(({ path, container, exact }) => (
-        <Route path={path} exact={exact} component={container} />
+        <Route key={path} path={path} exact={exact} component={container} />
       ))}
       <Route path="*" component={NotFound} />
     </Switch>

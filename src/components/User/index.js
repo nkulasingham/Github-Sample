@@ -28,7 +28,7 @@ const User = ({ user, repositories, changeRepositoryView, active }) => {
           <div className="tabs">
             <ul>
               {tabs.map(tab => (
-                <li>
+                <li key={tab}>
                   <span
                     className={`${active === tab.toLowerCase() && styles.isActive} ${styles.tab}`}
                     role="button"
@@ -44,7 +44,7 @@ const User = ({ user, repositories, changeRepositoryView, active }) => {
           {(Array.isArray(repositories) &&
             repositories.length > 0 &&
             repositories.map(repository => (
-              <Repository login={login} {...repository} styles={styles} />
+              <Repository key={repository.id} login={login} {...repository} styles={styles} />
             ))) || <p> No repositories found for this user </p>}
         </div>
       </div>

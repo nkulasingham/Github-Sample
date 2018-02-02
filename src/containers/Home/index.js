@@ -4,7 +4,7 @@ import Helmet from 'react-helmet';
 
 class HomeContainer extends Component {
   state = {
-    username: null,
+    username: '',
   };
 
   handleSubmit = event => {

@@ -3,6 +3,7 @@ query search($query: String!, $type: SearchType!) {
   	userCount
     nodes {
       ... on User {
+        id
         login
         avatarUrl
         repositories {
