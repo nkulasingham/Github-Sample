@@ -2,9 +2,11 @@ import React from 'react';
 import Tile from 'src/components/Tile';
 import { Link } from 'react-router-dom';
 import styles from './styles.scss';
+import { generate } from 'shortid';
 
 const Results = ({ users, total, query }) => {
-  const tiles = Array.isArray(users) && users.map(user => <Tile {...user} styles={styles} />);
+  const tiles =
+    Array.isArray(users) && users.map(user => <Tile key={generate()} {...user} styles={styles} />);
   return (
     <div className={styles.container}>
       <h1 className={styles.title}> Gitgazers </h1>
