@@ -1,0 +1,32 @@
+query search($login: String!) {
+  user(login: $login) {
+    login
+    avatarUrl
+    name
+    bio
+    followers {
+      totalCount
+    }
+    following {
+      totalCount
+    }
+    repositories(first: 100) {
+      totalCount
+      nodes {
+        name
+        description
+        stargazers {
+          totalCount
+        }
+        parent {
+          url
+        }
+        forkCount
+        isFork
+        primaryLanguage {
+          name
+        }
+      }
+    }
+  }
+}

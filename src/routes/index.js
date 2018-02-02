@@ -1,5 +1,6 @@
 import Home from 'src/containers/Home';
 import Results from 'src/containers/Results';
+import User from 'src/containers/User';
 
 const routes = [
   {
@@ -10,6 +11,11 @@ const routes = [
   {
     container: Results,
     path: '/results',
+  },
+  {
+    container: User,
+    path: '/users/:user',
+    exact: true,
   },
 ];
 
