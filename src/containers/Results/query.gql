@@ -1,0 +1,20 @@
+query search($query: String!, $type: SearchType!) {
+  search(query: $query,type: $type, first: 100) {
+  	userCount
+    nodes {
+      ... on User {
+        login
+        avatarUrl
+        repositories {
+          totalCount
+        }
+      }
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+  }
+}

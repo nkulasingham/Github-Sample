@@ -1,0 +1,45 @@
+.container {
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 30px 60px;
+  border: 2px solid #eee;
+  background: white;
+}
+
+.homeButton {
+  font-size: 1.3rem;
+  padding: 10px 30px;
+  background-color: #1e87f0;
+  border-radius: 5px;
+  color: #fff;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: inline-flex;
+  cursor: pointer;
+  outline: none;
+}
+
+.homeButton:hover {
+  color: #fff
+}
+
+.flexContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.title {
+  font-family: 'Josefin Sans', Arial, Helvetica, sans-serif;
+  text-align: center;
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+.totalResults {
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+.profileLink:hover {
+  border: 2px solid #1e87f0;
+}
