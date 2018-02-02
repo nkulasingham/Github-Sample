@@ -17,7 +17,7 @@ A .env file containing your access token for github.
 
 # How to run
 
-If you have docker installed, all you need to do is run `docker-compose up` and then navigate to port 4000 on the IP you have configured docker to.
+If you have docker installed, all you need to do is run `yarn build` and then  `docker-compose up` and then navigate to port 4000 on the IP you have configured docker to.
 
 # Non Docker Installation Instructions
 
